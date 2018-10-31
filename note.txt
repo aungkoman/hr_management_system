@@ -1,0 +1,52 @@
+
+my sql insert
+
+
+INSERT INTO `soldiers` (`id`, `mc_type`, `mc`, `rank`, `name`, `position`, `company`, `current_location`, `inner_location`, `inner_duty`, `ops_location`, `ops_duty`, `outside_location`, `outside_duty_name`, `outside_duty_location`, `outside_duty_start_date`, `outside_duty_end_date`, `created_date`, `last_modified_date_time`) VALUES (NULL, '1', '64500', '5', 'Phyo Zin Myint', '4', '2', '2', '4', '2', '2', '1', '2', null, null, null, null, '2018-10-17', '2018-10-17 07:19:23');
+
+UPDATE `soldiers` SET `mc_type` = '1' WHERE `soldiers`.`mc` = 63441;
+
+
+"DELETE FROM `soldiers` WHERE `soldiers`.`id` = 6"
+
+_______________________________________________________
+
+> myArray[0]
+  undefined
+> myArray
+  [empty, "b", "c", "d"]
+
+myArray.splice(start, deleteCount) actually removes the element, reindexes the array, and changes its length.
+
+> myArray = ['a', 'b', 'c', 'd']
+  ["a", "b", "c", "d"]
+> myArray.splice(0, 2)
+  ["a", "b"]
+> myArray
+  ["c", "d"]
+
+
+pos = myArray.map(function(e) { return e.object_key; }).indexOf('object_key_value');
+
+// scroll to the selected html element
+    $('html, body').animate({
+        scrollTop: $("#target-element").offset().top
+    }, 1000);
+
+______________________
+
+The parseInt() method converts a string into an integer (a whole number).
+
+It accepts two arguments. The first argument is the string to convert. The second argument is called the radix. This is the base number used in mathematical systems. For our use, it should always be 10.
+
+var text = '42px';
+var integer = parseInt(text, 10);
+// returns 42
+
+____________________________
+
+var audio = new Audio('audio_file.mp3');
+audio.play();
+
+
+_______________________________

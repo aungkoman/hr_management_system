@@ -1,0 +1,195 @@
+Now we just move to android 
+____________________
+.set and .destroy does not render the view 
+search " how to trace backbone error on .set and .destroy"
+
+aww, we can look the backbone model in realtime and .set and .destroy how does it work
+but i already did console.log in render function and it does not make any log when .set function is calling...
+_______________________
+* sovled with parseInt before where filter and assing pure int to object 
+
+We are messing up with int and string in js obj sent and request
+finally i'm thinking to select data row from database and send back to client (socket client); shall we ??
+let's see this;
+_________________
+*Solved*
+Jquery is messing up with my backbone model and colleciton 
+what's wrong with jquery 
+______________________
+
+To Do List
+Role
+User Management System (so boring...)
+Android SocketIO and Volley + Webview Interface Tutorial
+
+Outline Book
+Search and Collect
+Read and Note
+Copy and Paste 
+Print and Report
+Update with Supervisor's correction
+
+
+To Test Wifi Network 
+// Android Tablet (Mi Pad 2 )
+// Admin (Apple Ipad Pro) for web interface => user management system 
+
+QR for admin link and
+QR for user link 
+QR for zapya file sharing link 
+_____________________________________
+26/10/2018
+12:05
+
+socket get update/delete/insert soldier data
+and parse to localStorage and Soldiers Collection to update ui in background
+// not to render all the data and no reloading...
+just insert/update/delete soldier soldier from socket event to localStoarage :D
+Good Luck Bro
+
+by the way 
+there is no log system STILL Now
+how did you implement it.
+
+* All the operation insert, update, delete event are emitted to all client via socket and accept, render in client appropriately *
+27/10/2018
+1:11 AM
+______________________________
+24/10/2018
+12:17 AM
+
+socket server cross site domain policy issue
+to be fix
+ 
+ i have to sleep 
+
+
+ Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at ‘http://localhost:8082/socket.io/?EIO=3&transport=polling&t=MQZrw2l’. (Reason: Credential is not supported if the CORS header ‘Access-Control-Allow-Origin’ is ‘*’)
+
+ this error make me crazy
+
+ *Case Colosed*
+ *I solved*
+_________________________
+23/10/2018
+12:13 PM
+
+To add indicator for showing that we are connecting to server for what user requested data and action, so wait for me, sorry, wait for server response and do nothing during this period , ok? yeah, u must be OK with this. :D :D :D
+
+6:43
+to support myanmar name
+socket connection
+login form => saved to  localStorage for socket name 
+log system
+__________________
+by the way,
+my screen stripe color is changed from black to red :D :D :D LOL
+______________
+21/10/2018 
+
+we need to write UPDATE function in Server
+we need to add own model validation rule
+so we can call validate (may be custom method ) to validate the model data, attributes and re inform to the respected local field to recover the condition.
+
+
+Automatically hide or show modal in insertion and updating operations
+
+Adjust result data and show pol log0
+_________________________
+Ohhhh Shit
+It's like a CHAM :D :D
+i love it backbone :P :P
+perfect binding for view and data manipulation , separation
+____________________________
+Little OK with View Instance 
+we just need to change tagName: div, span to tr LOL
+what's about tr , td 
+View Instance
+at backbone view
+el does not work 
+:C :C :C 
+
+and so on
+event does not watch 
+what should i do 
+
+i'm dizzy with this view instance and el
+i wanna create 
+event listener to maintain this soldier update view Flexible\
+shall we
+let's do this baby
+backbone view is bull shit
+so sad 
+RIP backbone Baby
+
+
+by the way
+my love, mi notebook air battery is so impress this morning
+the whole morning 
+from wake up to class room
+may be around 6:30 am to 10:30 am
+lite weight program
+e.g Groove and node (two command promt)
+sublime text and mozilla firefox 
+it's great battery performance 
+i xo impress
+early, i m dispointed with low battery life. it'all long last for nearly one hour for heavy usage,
+pubg emulator and wifi internet
+so, this is great for me this morning battery performace :D :D 
+i love xo much
+
+19/10/2018
+Friday
+10:30 AM
+________________________________
+@New/Update/Delete Data Modal in Bootstrap Modal
+Show and Hide Input according to data modal condition
+we need to watch THE DATA MODAL's changing by Template :D :D :D
+
+__________________________
+JS Client Date Time Function
+JS Server Date Time Function
+MySql DateTime Function 
+To add date time (insert data to database)
+Not Working in NOW();
+
+
+
+
+#cors enable in server express
+16 Nov 2018
+9:15 PM
+
+Problem
+________
+Failed to load http://localhost:8082/new_soldier: No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:8081' is therefore not allowed access.
+
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://localhost:8082/new_soldier. (Reason: CORS header ‘Access-Control-Allow-Origin’ missing).
+
+
+Solution
+________
+
+app.all('/*',function(req,res,next){
+
+  res.header('Access-Control-Allow-Origin','*');
+  res.header('Access-Control-Allow-Headers','X-Requested-With');
+  next();
+
+})
+
+@17/10/2018
+8:05 AM
+--------------------
+
+
+MySql Server
+Database Schema
+Promise
+CRUD Node Module
+
+Node.js, MySQL and promises
+
+Like most I/O operations in Node.js, database access is asynchronous. It’s a great feature, because other operations can be performed while waiting for the results. But if you come from a different programming language, this can be really annoying.
+
+__________
