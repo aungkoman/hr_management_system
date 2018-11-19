@@ -1,3 +1,11 @@
+var path = require('path');
+var fs = require('fs');
+var https = require('https');
+var certOptions = {
+  key:fs.readFileSync(path.resolve('server.key')),
+  cert:fs.readFileSync(path.resolve('server.crt'))
+}
+
 var express = require('express'); 
 var app = express();
 const mysql = require( 'mysql' );
@@ -11,14 +19,14 @@ var cors = require('cors');
 app.use(cors());
 
 // initialize client list array
-var client_list = [null];
+var client_list = new Array();
 // we need to splice the first element from array (it's null);
-client_list.splice(0, 1);
+//client_list.splice(0, 1);
 
-client_list[client_list.length] = {socket_id:'asdf asd2456asdfs23df4',socket_name:'aung ko man'};
+//client_list[client_list.length] = {socket_id:'asdf asd2456asdfs23df4',socket_name:'aung ko man'};
 
-console.log("socket id is "+client_list[0].socket_id);
-client_list.splice(0, 1);
+//console.log("socket id is "+client_list[0].socket_id);
+//client_list.splice(0, 1);
 
 
 /*
@@ -79,10 +87,11 @@ app.all('/*',function(req,res,next){
 */
 
 app.get('/', function (req, res) { 
-	console.log("Got a / GET request");  
-	res.sendFile( __dirname + "/" + "index.html" ); 
-	//res.send('Hello World'); 
+  console.log("Got a / GET request");  
+  //res.sendFile( __dirname + "/" + "index.html" ); 
+  res.send('Hello World'); 
 });
+
 
 app.get('/process_get', function (req, res) {
    // Prepare output in JSON format   
@@ -180,7 +189,7 @@ app.post('/new_soldier', urlencodedParser, function (req, res) {
   var inserted_date = new Date(year, month, date);
   */
   var db = new Database(db_config);
-  var query_command = "INSERT INTO `soldiers` (`mc_type`, `mc`, `rank`, `name`, `position`, `company`, `current_location`, `inner_location`, `inner_duty`, `ops_location`, `ops_duty`, `outside_location`, `outside_duty_name`, `outside_duty_location`) VALUES ( '"+new_soldier.mc_type+"', '"+new_mc+"', '"+new_soldier.rank+"', '"+new_soldier.name+"','"+new_soldier.position+"','"+new_soldier.company+"', '"+new_soldier.current_location+"','"+new_soldier.inner_location+"','"+new_soldier.inner_duty+"','"+new_soldier.ops_location+"', '"+new_soldier.ops_duty+"', '"+new_soldier.outside_location+"','"+new_soldier.outside_duty_name+"', '"+new_soldier.outside_duty_location+"');";
+  var query_command = "INSERT INTO `soldiers` (`mc_type`, `mc`, `rank`, `name`, `position`, `company`, `current_location`, `inner_location`, `inner_duty`, `ops_location`, `ops_duty`, `outside_location`, `outside_duty_name`, `outside_duty_location`) VALUES ( "+new_soldier.mc_type+", "+new_mc+", "+new_soldier.rank+",' "+new_soldier.name+"',"+new_soldier.position+","+new_soldier.company+", "+new_soldier.current_location+","+new_soldier.inner_location+","+new_soldier.inner_duty+","+new_soldier.ops_location+","+new_soldier.ops_duty+","+new_soldier.outside_location+",'"+new_soldier.outside_duty_name+"','"+new_soldier.outside_duty_location+"');";
   db.query( query_command)
     .then( rows => {
         console.log("insert soldier results are "+JSON.stringify(rows)); 
@@ -281,13 +290,13 @@ app.post('/update_soldier', urlencodedParser, function (req, res) {
   console.log("inner location is "+new_soldier.inner_location);
 
   var db = new Database(db_config);
-  var query_command = "UPDATE `soldiers` SET `mc_type` = '"+new_mc_type+"',  `rank` = '"+new_rank+"',  `name` = '"+new_name+"',  `company` = '"+new_company+"',  `position` = '"+new_position+"',  `current_location` = '"+new_current_location+"',  `inner_location` = '"+new_inner_location+"',  `inner_duty` = '"+new_inner_duty+"',  `ops_location` = '"+new_ops_location+"',  `ops_duty` = '"+new_ops_duty+"',  `outside_location` = '"+new_outside_location+"',  `outside_duty_name` = '"+new_outside_duty_name+"',  `outside_duty_location` = '"+new_outside_duty_location+"',  `outside_duty_start_date` = '"+new_outside_duty_start_date+"',  `outside_duty_end_date` = '"+new_outside_duty_end_date+"' WHERE `soldiers`.`mc` = "+old_mc+"";
+  var query_command = "UPDATE `soldiers` SET `mc_type` = '"+new_mc_type+"',  `rank` = '"+new_rank+"',  `name` = '"+new_name+"',  `company` = '"+new_company+"',  `position` = '"+new_position+"',  `current_location` = '"+new_current_location+"',  `inner_location` = "+new_inner_location+",  `inner_duty` = "+new_inner_duty+",  `ops_location` = "+new_ops_location+",  `ops_duty` = "+new_ops_duty+",  `outside_location` = "+new_outside_location+",  `outside_duty_name` = '"+new_outside_duty_name+"',  `outside_duty_location` = '"+new_outside_duty_location+"',  `outside_duty_start_date` = '"+new_outside_duty_start_date+"',  `outside_duty_end_date` = '"+new_outside_duty_end_date+"' WHERE `soldiers`.`mc` = "+old_mc+"";
 
   db.query( query_command)
     .then( rows => {
         console.log(" update result is "+JSON.stringify(rows));  
         //res.end(JSON.stringify(rows));
-        var msg = old_mc +"'s updated data is updated by someone :P"; // by someone(:P) we need to add Author Name
+        var msg = old_mc +"'s data is updated."; // by someone(:P) we need to add Author Name
         var real_update_obj = JSON.parse(new_soldier_from_client);
         
         // we need to emit pure database data to all client 
@@ -325,12 +334,152 @@ app.post('/update_soldier', urlencodedParser, function (req, res) {
 
 // end point for user login
 app.post('/user_login', urlencodedParser, function (req, res) {
+
+  console.log("request login  data is "+JSON.stringify(req.body));
+  
   console.log("type is "+req.body.type);
+
   var socket_id = req.body.socket_id;
   var user_data = req.body.user_data;
 
-  console.log("request login  data is "+JSON.stringify(req.body));
+
+
+
+  if(req.body.type == undefined ){
+    // this request is from Android Client (not web client )
+    // so we 
+    var android_data = req.body.data; // this is string
+    var android_obj = JSON.parse(android_data);
+    socket_id = android_obj.socket_id;
+    user_data = android_obj.user_data;
+  }
+
   var user_data = JSON.parse(user_data);
+
+/*
+  var login_mc = user_data.login_mc;
+  var login_password = user_data.login_password;
+
+  var db = new Database(db_config);
+  var query_command = "SELECT * FROM users WHERE mc = "+login_mc+" AND password = "+login_password;
+  db.query( query_command )
+    .then( rows => {
+        console.log(" login soldier row are "+JSON.stringify(rows)+" sql is "+query_command);
+        
+        // Prepare output in JSON format   
+        var returned_data = {
+          status:"success",
+          data:rows
+        } 
+        console.log("returned_data is "+returned_data);   
+        res.end(JSON.stringify(returned_data));
+        
+        return db.close();
+    }, err => {   
+        res.end("error in logging in  soldiers database query "+err);
+        return db.close().then( () => { throw err; } )
+    } )
+    .catch( err => {
+        // handle the error
+        res.end("catch error in getting soldiers database query "+err);
+        console.log("error in database query "+err);
+    } ) ;
+*/
+  // select from user table
+  // hard coding for user login */
+  //
+
+
+  var db = new Database(db_config);
+  var query_command = "SELECT * FROM `users` WHERE `users`.`mc` = "+user_data.login_mc+" AND `users`.`password` = '"+user_data.login_password+"'";//"SELECT * FROM users";// WHERE 'mc' ="+user_data.login_mc;//+" AND 'password' ='"+user_data.login_password+"'";
+  db.query( query_command )
+    .then( rows => {
+
+        console.log(" login soldier row are "+JSON.stringify(rows)+" sql is "+query_command);
+        if(rows.length == 0 ){
+          console.log("No user is here .");
+          // Prepare output in JSON format   
+          //var returned_data = {
+          //  status:"fail",
+          //  err_msg:"Cannot authorized"
+          //}; 
+          //console.log("login returned_data is "+JSON.stringify(returned_data)); 
+
+          console.log("user does not authorized ");
+          var returned_data = {status:'fail',err_msg:'can not authorized'};
+          console.log("returned data is "+JSON.stringify(returned_data));
+          res.end(JSON.stringify(returned_data));
+          return db.close();
+        }
+
+        if(rows[0]['role'] == 0 ){
+          // it is pending user
+          console.log("user does noe have sufficient role (it's pending account) ");
+          var returned_data = {status:'fail',err_msg:"user does noe have sufficient role (it's pending account) "};
+          console.log("returned data is "+JSON.stringify(returned_data));
+          res.end(JSON.stringify(returned_data));
+          return db.close();
+        }
+        console.log("login returned_data is "+JSON.stringify(returned_data)); 
+
+        // find the position of this socket id
+        // add user mc 
+        // notify / update curretn online list
+        var socket_pos = client_list.map(function(e) { return e.socket_id; }).indexOf(socket_id);
+        if(socket_pos == -1){
+          // insert new socket id object to client list array
+        }
+        console.log("socket pos is "+socket_pos+ " and data is "+ JSON.stringify(client_list[socket_pos]));
+        client_list[socket_pos]['socket_name'] = rows[0]['mc'];
+        client_list[socket_pos]['auth_status'] = 'true';
+        console.log("NOW socket pos is "+socket_pos+ " and data is "+ JSON.stringify(client_list[socket_pos]));
+        
+        // create active now mc list 
+        var active_now_mcs = new Array();
+        for(var i=0; i<client_list.length; i++){
+          if(client_list[i]['auth_status'] == 'true' ){
+            //console.log(" client_list "+i+" => "+JSON.stringify())
+            // find duplicate mc
+            var duplicate_mc = 'false';
+            for(var j=0; j<active_now_mcs.length; j++){
+              if(active_now_mcs[j] == client_list[i]['socket_name']){
+                duplicate_mc = 'true';
+              }
+            }
+
+            // if duplicate mc is not found
+            // add to active now mc list 
+            if(duplicate_mc == 'false') {
+              active_now_mcs[active_now_mcs.length] = client_list[i]['socket_name'];
+            }
+            //io.to(client_list[i]['socket_id']).emit('hello_emit',{msg:'hello emit msg'});
+          }
+        }
+
+        io.emit('active_now_mcs',{active_now_mcs:active_now_mcs});
+
+        select_all_soldier_without_arg(req,res,rows);  
+        //res.end(JSON.stringify(returned_data));        
+        return db.close();
+    }, err => {   
+        //res.end("error in logging in  soldiers database query "+err);
+        console.log("error in logging in  soldiers database query "+err);
+          var returned_data = {status:'fail',err_msg:err};
+          console.log("returned data is "+JSON.stringify(returned_data));
+          res.end(JSON.stringify(returned_data));
+        return db.close().then( () => { throw err; } )
+    } )
+    .catch( err => {
+        // handle the error
+        //res.end("catch error in getting soldiers database query "+err);
+        console.log("catch error in getting soldiers database query "+err);
+          var returned_data = {status:'fail',err_msg:err};
+          console.log("returned data is "+JSON.stringify(returned_data));
+          res.end(JSON.stringify(returned_data));
+        //console.log("error in database query "+err);
+    } ) ;
+/*
+
   if(user_data.login_mc == 63441 || user_data.login_mc == 123 || user_data.login_mc == 55 ){
     // ok, fine
     console.log('auth is ok , let go to data select');
@@ -342,8 +491,8 @@ app.post('/user_login', urlencodedParser, function (req, res) {
 
     var msg = user_data.login_mc +" login to system.";
     io.emit('login_broadcast',{msg:msg});
-
-    var returned_data = select_all_soldier_without_arg(req,res,user_data);
+    select_all_soldier_without_arg(req,res,user_data);
+    //var returned_data = select_all_soldier_without_arg(req,res,user_data);
     /*
     console.log(" without arg return data is "+returned_data);
     returned_data = JSON.parse(returned_data);
@@ -355,13 +504,19 @@ app.post('/user_login', urlencodedParser, function (req, res) {
       res.end(JSON.stringify(returned_data));
     }
     */
-  }
+    
+ // }
+  /*
   else{
     // not auth
+    console.log("user does not authorized ");
     var returned_data = {status:'fail',err_msg:'can not authorized'};
+    console.log("returned data is "+JSON.stringify(returned_data));
     res.end(JSON.stringify(returned_data));
 
   }
+  */
+  
 });
 
 
@@ -429,7 +584,7 @@ function select_all_soldier_without_arg(req,res,user_data){
   var db = new Database(db_config);
   db.query( query_command )
     .then( rows => {
-        //console.log("soldier rows are "+JSON.stringify(rows));
+        console.log("soldier rows are "+JSON.stringify(rows));
         // Prepare output in JSON format   
         var returned_data = {
           status:"success",
@@ -439,49 +594,85 @@ function select_all_soldier_without_arg(req,res,user_data){
         console.log("returned_data is "+returned_data);   
         res.end(JSON.stringify(returned_data));
         return db.close();
+
         //db.close();
         //return JSON.stringify(returned_data);
     }, err => {   
-        res.end("error in getting soldiers database query "+err);
-        return db.close().then( () => { throw err; } );
-        /*   
+        console.log("error in getting soldiers database query "+err);
+        //res.end("error in getting soldiers database query "+err);
+        //return db.close().then( () => { throw err; } );
+          
         var returned_data = {
           status:"fail",
           err_msg:err
         } ;
         db.close();
-        return JSON.stringify(returned_data);
-        */
+        //return JSON.stringify(returned_data);
+        res.end(JSON.stringify(returned_data));
+        
 
     } )
     .catch( err => {
         // handle the error
-        res.end("catch error in getting soldiers database query "+err);
+
+        //res.end("catch error in getting soldiers database query "+err);
         console.log("error in database query "+err);  
-        /*
+        
         var returned_data = {
           status:"fail",
           err_msg:err
         } ;
         db.close();
-        return JSON.stringify(returned_data);
-        */
+        //return JSON.stringify(returned_data);
+        res.end(JSON.stringify(returned_data));
+        
 
     } ) ;
 }
 
 
+function send_active_now_mcs(){
 
+        // create active now mc list 
+        var active_now_mcs = new Array();
+        for(var i=0; i<client_list.length; i++){
+          if(client_list[i]['auth_status'] == 'true' ){
+            //console.log(" client_list "+i+" => "+JSON.stringify())
+            // find duplicate mc
+            var duplicate_mc = 'false';
+            for(var j=0; j<active_now_mcs.length; j++){
+              if(active_now_mcs[j] == client_list[i]['socket_name']){
+                duplicate_mc = 'true';
+              }
+            }
 
+            // if duplicate mc is not found
+            // add to active now mc list 
+            if(duplicate_mc == 'false') {
+              active_now_mcs[active_now_mcs.length] = client_list[i]['socket_name'];
+            }
+            //io.to(client_list[i]['socket_id']).emit('hello_emit',{msg:'hello emit msg'});
+          }
+        }
+
+        io.emit('active_now_mcs',{active_now_mcs:active_now_mcs});      
+}
+
+/* http server 
 var server = app.listen(8082, function () {
   var host = server.address().address;  
   var port = server.address().port;
   console.log("Example app listening at http://%s:%s", host, port);
 });
-
+*/
+var https_server = https.createServer(certOptions,app).listen(8082);
 
 //var http = require('http').Server(app);
-var io = require('socket.io')(server);
+
+var io = require('socket.io')(https_server);
+//var io = require('socket.io')(server);
+
+
 //io.set('origins','*:*');
 //io.origins('*:*');
 //io.set('origins','http://localhost:8081');
@@ -497,7 +688,6 @@ io.on('connection', function(socket){
     console.log('a user disconnected');
     if (addedUser) {
       --numUsers;
-
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
@@ -506,26 +696,81 @@ io.on('connection', function(socket){
     }
   });
 
-  socket.on('add user',(username)=>{
-    console.log("add user event on socket");
-    if(addedUser) {
-        return;
-    }
+  socket.on('new_message',(data)=>{
+    console.log("new_message is arrived "+JSON.stringify(data));
+    io.emit('new_message',data);
+  });
 
-    console.log('add user =>'+username);
-    socket.username = username;
+  socket.on('send_iceCandidate',(data)=>{
+    console.log("send_iceCandidate is arrived "+JSON.stringify(data));
+
+    var socket_id = data.socket_id;
+    var destination_socket_id = data.destination_socket_id;
+    var iceCandidate = data.iceCandidate;
+    io.to(destination_socket_id).emit('send_iceCandidate',data);
+
+  });
+
+
+  socket.on('send_answer',(data)=>{
+    console.log("send_answer is arrived "+JSON.stringify(data));
+    var socket_id = data.source_socket_id;
+    var source_mc = data.source_mc;
+    var destination_socket_id = data.destination_socket_id;
+    var description = data.description;
+    io.to(destination_socket_id).emit('send_answer',data);
+  });
+
+
+
+  socket.on('send_offer',(data)=>{
+    console.log("send_offer is arrived "+JSON.stringify(data));
+    //io.emit('new_message',data);
+    //io.to(client_list[i]['socket_id']).emit('hello_emit',{msg:'hello emit msg'});
+
+    var socket_id = data.socket_id;
+    var destination_mc = data.destination_mc;
+    var description = data.description;
+
+    // find the socket id (s) of destination mc in client_list array
+    // just loop :D :D :D
+    var socket_id_list_for_dest_mc = new Array();
+    for(var i=0; i<client_list.length; i++){
+      if(client_list[i]['socket_name'] == destination_mc ){
+        socket_id_list_for_dest_mc[socket_id_list_for_dest_mc.length] = client_list[i]['socket_id'];
+      }
+    }
+    if(socket_id_list_for_dest_mc.length > 0 ){
+      // this socket(s) are currently connected
+      // so , data to those client 
+      //io.to(s).emit('hello_emit',{msg:'hello emit msg'});
+      for(var j = 0 ; j<socket_id_list_for_dest_mc.length; j++){
+        io.to(socket_id_list_for_dest_mc[j]).emit('send_offer',data);
+      }
+    }
+  });
+
+  socket.on('add user',(data)=>{
+    console.log("add user event on socket "+JSON.stringify(data));
+    //console.log('add user =>'+username);
+    socket.user_mc = data.user_mc;
     ++numUsers;
     addedUser = true;
-    client_list[client_list.length] = {socket_id:socket.id, socket_name:username};
+    if(socket.user_mc == null){
+      client_list[client_list.length] = {socket_id:socket.id, socket_name:socket.user_mc,auth_status:'false'};
+    }
+    else{
+      client_list[client_list.length] = {socket_id:socket.id, socket_name:socket.user_mc,auth_status:'true'};
+    }
     socket.emit('login',{
       numUsers:numUsers
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
-      username: socket.username,
+      username: socket.user_mc,
       numUsers: numUsers
     });
-
+    send_active_now_mcs();
 
   });
 

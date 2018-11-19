@@ -50,6 +50,40 @@
 	<!-- this is our main container -->
     <div class="container hidden" id="main_div">
 
+
+
+            <!-- this is WEB RTC Section -->
+
+    <script src="scripts/adapter.js"></script>
+    <script src="scripts/jquery-2.0.0.js"></script>
+
+    <h2>Web Rtc Section</h2>
+<table>
+    <tr>
+        <td>
+            <video id="localVideo" />
+        </td>
+        <td>
+            <ul>
+                <li><button id="play_local_video_button">Play Local Video</button></li>
+            <ul>
+
+        <td>
+            <video id="remoteVideo" />
+        </td>
+    </tr>
+    <tr>
+    </tr>
+</table>
+
+<p id="localOffer">It's local offer code</p>
+
+
+    <script src="scripts/rtc.js"></script>
+            <!-- end for Web Rtc section -->
+
+
+
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -67,7 +101,6 @@
       <li><a class="nav_link" href="#inner">Inner</a></li>
       <li><a class="nav_link" href="#ops">Ops</a></li>
       <li><a class="nav_link" href="#outside">Outside</a></li>
-      <li><a class="nav_link" href="#chatroom">Chatroom</a></li>
       <li><a class="nav_link" href="#notification_alert_list">Notification <span id="notification_alert_count_span" class="badge"></span></a></li>
     </ul>
     </div>
@@ -78,135 +111,7 @@
 <ui  class="hidden" id="notification_alert_list">
 </ui>
 
-        <!-- Start for WebRTC Area -->
-        <div class="hero-unit hidden" id="webrtc_section_div">
-            <h2>Welcome to WEB RTC AREA</h2>
-
-
-<div class="span4">
-<h2>Active Now</h2>
-    <!--ul id="active_now_ul">
-        <li> No One Is Active Now</li>
-    </ul-->
-     <div class="btn-group-vertical" id="active_now_button_group_div">
-        <button type="button" class="btn btn-primary">Apple</button>
-        <button type="button" class="btn btn-primary">Samsung</button>
-        <button type="button" class="btn btn-primary">Sony</button>
-    </div> 
-
-
-</div>
-<div class="span4">
-  <fieldset class="well">
-    <p class="head muted">
-      HR Chat Section
-    </p>
-    <div class="text-info" id="chatlog" style="height:350px; overflow:auto;">
-    </div>
-  </fieldset>
-  <!--form class="form-inline" onSubmit="return sendMessage()" action=""-->
-    <input type="text" id="messageTextBox" placeholder="Type your message here">
-    <button type="submit" id="sendMessageBtn" class="btn">Send message</button>
-  <!--/form-->
-  <input type="file" id="fileBtn">
-</div>
-
-
-<div class="span4">
-<h2>Local Video</h2>
-  <Video id="localVideo" autoplay playsinline>
-</div>
-<div class="span4">
-<h2>Remote Video</h2>
-  <Video id="remoteVideo" autoplay playsinline>
-</div>
-
-<div class="modal" id="showLocalOffer" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" hidden>
-  <div class="modal-header">
-    <h3 id="myModalLabel">Send your local offer to someone else</h3>
-  </div>
-  <div class="modal-body">
-    Here's your "offer" -- it tells someone else how to connect to you.  Send the whole thing to them, for example in an instant message or e-mail.
-  <br/>
-  <textarea class="input-large" id="localOffer" name="localOffer" rows="10" cols="100"></textarea>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" id="offerSentBtn" data-dismiss="modal" aria-hidden="true">Okay, I sent it.</button>
-  </div>
-</div>
-
-<div class="modal" id="showLocalAnswer" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" hidden>
-  <div class="modal-header">
-    <h3 id="myModalLabel">Send your local answer to someone else</h3>
-  </div>
-  <div class="modal-body">
-    Here's your "answer" -- it tells someone else how to connect to you.  Send the whole thing to them, for example in an instant message or e-mail.
-  <br/>
-  <textarea class="input-large" id="localAnswer" name="localAnswer" rows="10" cols="100"></textarea>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" id="answerSentBtn" data-dismiss="modal" aria-hidden="true">Okay, I sent it.</button>
-  </div>
-</div>
-
-<div class="modal" id="getRemoteOffer" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" hidden>
-  <div class="modal-header">
-    <h3 id="myModalLabel">Paste the "offer" you received</h3>
-  </div>
-  <div class="modal-body">
-    The person who created the room will send you an "offer" string -- paste it here.
-  <br/>
-  <textarea class="input-large" id="remoteOffer" name="remoteOffer" rows="10" cols="100"></textarea>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" id="offerRecdBtn" data-dismiss="modal" aria-hidden="true">Okay, I pasted it.</button>
-  </div>
-</div>
-
-<div class="modal" id="getRemoteAnswer" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" hidden>
-  <div class="modal-header">
-    <h3 id="myModalLabel">Paste the "answer" you received</h3>
-  </div>
-  <div class="modal-body">
-    Now paste in the "answer" that was sent back to you.
-  <br/>
-  <textarea class="input-large" id="remoteAnswer" name="remoteAnswer" rows="10" cols="100"></textarea>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" id="answerRecdBtn" data-dismiss="modal" aria-hidden="true">Okay, I pasted it.</button>
-  </div>
-</div>
-
-<div class="modal" id="waitForConnection" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" hidden>
-  <div class="modal-header">
-    <h3 id="myModalLabel">Waiting for connection</h3>
-  </div>
-  <div class="modal-body">
-    This dialog will disappear when a connection is made.
-  </div>
-  <div class="spinner" align="center">
-    <img src="img/spinner.gif"></img>
-  </div>
-</div>
-
-<div class="modal" id="createOrJoin" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <h3 id="myModalLabel">Create or join a room?</h3>
-  </div>
-  <div class="modal-footer">
-    <button class="btn" id="joinBtn" data-dismiss="modal" aria-hidden="true">Join</button>
-    <button class="btn btn-primary" id="createBtn" data-dismiss="modal" aria-hidden="true">Create</button>
-  </div>
-</div>
-
-
-
-
-
-        </div> <!-- End fo WebRTC Area -->
-
-
-        <!-- Start for our data table -->
+    	<!-- Start for our data table -->
         <div class="hero-unit" id="our_data_table_section_div">
         	<h2 class="hidden">Status Bar</h2>
         	<ul id="status_bar" class="hidden"></ul>
@@ -312,6 +217,8 @@
             <button class="btn btn-danger" id="logout_button">
                 Logout
         	</button>
+
+
             <!-- new soldier modal STAT -->
 			<div class="modal fade" id="new_soldier">
     			<div class="modal-dialog">
@@ -681,11 +588,7 @@
 </script>
 
 	<script src="scripts/jquery.loadingModal.min.js"></script>
-    <script src="scripts/adapter.js"></script>
     <script src="scripts/main.js"></script>
-
-
-
 
 </body>
 </html>

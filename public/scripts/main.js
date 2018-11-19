@@ -18,12 +18,12 @@ var config = {
     status: ['Assigned', 'Doing', 'Done', 'Close']
 };
 
+//var localhost_ip ='192.168.8.125'; // zte 
+//var localhost_ip ='localhost'; // localhost
+//var localhost_ip = '192.168.43.32'; // team cs
+var localhost_ip = '192.168.1.109'; // CS Office 
 
-//var localhost_ip ='192.168.8.125';
-var localhost_ip ='localhost';
 var notification_alert_count_int = 0;
-
-
 
 var Issue = Backbone.Model.extend({
     defaults: {
@@ -152,16 +152,16 @@ var Soldier = Backbone.Model.extend({
 
                 // hay, we just initialize all data to null 
                 // ha ha, it's great :D :D LOL
-                this.set({inner_location:0});
-                this.set({inner_duty:0});
-                this.set({ops_location:0});
-                this.set({ops_duty:0});
-                this.set({outside_location:0});
+                this.set({inner_location:null});
+                this.set({inner_duty:null});
+                this.set({ops_location:null});
+                this.set({ops_duty:null});
+                this.set({outside_location:null});
                 this.set({outside_duty_name:null});
                 this.set({outside_duty_location:null});
                 this.set({outside_duty_start_date:null});
                 this.set({outside_duty_end_date:null});
-                console.log('this is all new data ');
+                console.log('this is all new data, just set to null ');
                 //break;
             //case '1':
                 // it's inner
@@ -585,7 +585,7 @@ function insert_soldier(){
 
     // validate form data 
     // create soldier object
-    // send to server api using new_soldier endpoint on http post method
+    // send to server api using new_soldier endpoint on https post method
     // show indicator to user for connecting server 
     // show server response data in proper form
     update_status('validating user input data...');
@@ -630,11 +630,11 @@ function insert_soldier(){
     console.log("current location is "+newSoldier.current_location);
     if(newSoldier.current_location == 0 ){
         console.log("it is new");
-            newSoldier.inner_location = 0;
-            newSoldier.inner_duty=0;
-            newSoldier.ops_location=0;
-            newSoldier.ops_duty=0;
-            newSoldier.outside_location=0;
+            newSoldier.inner_location = null;
+            newSoldier.inner_duty=null;
+            newSoldier.ops_location=null;
+            newSoldier.ops_duty=null;
+            newSoldier.outside_location=null;
             newSoldier.outside_duty_name=null;
             newSoldier.outside_duty_location=null;
             newSoldier.outside_duty_start_date=null;
@@ -643,9 +643,9 @@ function insert_soldier(){
     }
     else if(newSoldier.current_location == 1){
         console.log("it is inner");
-            newSoldier.ops_location=0;
-            newSoldier.ops_duty=0;
-            newSoldier.outside_location=0;
+            newSoldier.ops_location=null;
+            newSoldier.ops_duty=null;
+            newSoldier.outside_location=null;
             newSoldier.outside_duty_name=null;
             newSoldier.outside_duty_location=null;
             newSoldier.outside_duty_start_date=null;
@@ -654,9 +654,9 @@ function insert_soldier(){
     }
     else if(newSoldier.current_location ==2){
         console.log("it is ops");
-            newSoldier.inner_location = 0;
-            newSoldier.inner_duty=0;
-            newSoldier.outside_location=0;
+            newSoldier.inner_location = null;
+            newSoldier.inner_duty=null;
+            newSoldier.outside_location=null;
             newSoldier.outside_duty_name=null;
             newSoldier.outside_duty_location=null;
             newSoldier.outside_duty_start_date=null;
@@ -666,10 +666,10 @@ function insert_soldier(){
     }
     else if(newSoldier.current_location == 3){
         console.log("it is outside");
-            newSoldier.inner_location = 0;
-            newSoldier.inner_duty=0;
-            newSoldier.ops_location=0;
-            newSoldier.ops_duty=0;
+            newSoldier.inner_location = null;
+            newSoldier.inner_duty=null;
+            newSoldier.ops_location=null;
+            newSoldier.ops_duty=null;
             console.log("inner and ops  are initialized to zero and null for update");
  
     }
@@ -730,7 +730,7 @@ function insert_soldier(){
     show_loading_modal('uploading data to server..');
     $.ajax({
         method: "POST",
-        url: "http://"+localhost_ip+":8082/new_soldier",
+        url: "https://"+localhost_ip+":8082/new_soldier",
         data: requested_data
     })
     .done(function( msg ) {
@@ -771,7 +771,7 @@ function update_soldier(){
 
     // validate form data 
     // create soldier object
-    // send to server api using new_soldier endpoint on http post method
+    // send to server api using new_soldier endpoint on https post method
     // show indicator to user for connecting server 
     // show server response data in proper form
     update_status('validating user input data...');
@@ -816,11 +816,11 @@ function update_soldier(){
     console.log("current location is "+newSoldier.current_location);
     if(newSoldier.current_location == 0 ){
         console.log("it is new");
-            newSoldier.inner_location = 0;
-            newSoldier.inner_duty=0;
-            newSoldier.ops_location=0;
-            newSoldier.ops_duty=0;
-            newSoldier.outside_location=0;
+            newSoldier.inner_location = null;
+            newSoldier.inner_duty=null;
+            newSoldier.ops_location=null;
+            newSoldier.ops_duty=null;
+            newSoldier.outside_location=null;
             newSoldier.outside_duty_name=null;
             newSoldier.outside_duty_location=null;
             newSoldier.outside_duty_start_date=null;
@@ -829,9 +829,9 @@ function update_soldier(){
     }
     else if(newSoldier.current_location == 1){
         console.log("it is inner");
-            newSoldier.ops_location=0;
-            newSoldier.ops_duty=0;
-            newSoldier.outside_location=0;
+            newSoldier.ops_location=null;
+            newSoldier.ops_duty=null;
+            newSoldier.outside_location=null;
             newSoldier.outside_duty_name=null;
             newSoldier.outside_duty_location=null;
             newSoldier.outside_duty_start_date=null;
@@ -840,9 +840,9 @@ function update_soldier(){
     }
     else if(newSoldier.current_location ==2){
         console.log("it is ops");
-            newSoldier.inner_location = 0;
-            newSoldier.inner_duty=0;
-            newSoldier.outside_location=0;
+            newSoldier.inner_location = null;
+            newSoldier.inner_duty=null;
+            newSoldier.outside_location=null;
             newSoldier.outside_duty_name=null;
             newSoldier.outside_duty_location=null;
             newSoldier.outside_duty_start_date=null;
@@ -852,10 +852,10 @@ function update_soldier(){
     }
     else if(newSoldier.current_location == 3){
         console.log("it is outside");
-            newSoldier.inner_location = 0;
-            newSoldier.inner_duty=0;
-            newSoldier.ops_location=0;
-            newSoldier.ops_duty=0;
+            newSoldier.inner_location = null;
+            newSoldier.inner_duty=null;
+            newSoldier.ops_location=null;
+            newSoldier.ops_duty=null;
             console.log("inner and ops  are initialized to zero and null for update");
  
     }
@@ -872,7 +872,7 @@ function update_soldier(){
     show_loading_modal("Updating data...");
     $.ajax({
         method: "POST",
-        url: "http://"+localhost_ip+":8082/update_soldier",
+        url: "https://"+localhost_ip+":8082/update_soldier",
         data: requested_data
     })
     .done(function( msg ) {
@@ -914,7 +914,7 @@ function delete_soldier(soldier){
     var requested_data = {type:"delete_soldier",data:json_text};
     $.ajax({
         method: "POST",
-        url: "http://"+localhost_ip+":8082/delete_soldier",
+        url: "https://"+localhost_ip+":8082/delete_soldier",
         data: requested_data
     })
     .done(function( msg ) {
@@ -1094,6 +1094,8 @@ $(".nav_link").click(function(){
         $("#our_data_table_section_div").removeClass('hidden');
         // show notification alert list
         $("#notification_alert_list").addClass('hidden');
+        // show notification alert list
+        $("#webrtc_section_div").addClass('hidden');
 
 
     $(this).parent().siblings().removeClass('active');
@@ -1109,6 +1111,20 @@ $(".nav_link").click(function(){
         // just render all the data in original form
         render_new_data(0);
         console.log("original data is renderd");
+
+    }
+    else if(nav == 'chatroom'){
+        // this is home
+        // just render all the data in original form
+        //render_new_data(0);
+        console.log("chatroom is open");
+        $("#webrtc_section_div").removeClass('hidden');
+        $("#our_data_table_section_div").addClass('hidden');
+
+
+        navigator.mediaDevices.getUserMedia(mediaStreamConstraints)
+            .then(gotLocalMediaStream).catch(handleLocalMediaStreamError);
+        trace('Requesting local stream.');
 
     }
     else if(nav == 'inner'){
@@ -1242,7 +1258,7 @@ function user_login(user){
     show_loading_modal("Loging In....");
     $.ajax({
         method: "POST",
-        url: "http://"+localhost_ip+":8082/user_login",
+        url: "https://"+localhost_ip+":8082/user_login",
         data: requested_data
     })
     .done(function( msg ) {
@@ -1255,6 +1271,8 @@ function user_login(user){
             // that means login status is fine 
             // so we need to save login status in local Storage
             var user_data = returned_data.user_data;
+            user_data = user_data[0];
+            console.log("user data is "+JSON.stringify(user_data));
             var new_data = returned_data.data;
             save_localStorage("user_data",user_data);
             save_localStorage("data",new_data);
@@ -1288,14 +1306,16 @@ function user_login(user){
     $("#logout_button").on('click',function(){
         remove_localStorage('user_data');
         remove_localStorage('data');
-        window.location.assign('http://localhost:8081');
+        //window.location.assign('https://localhost:8081');
+        window.location.reload();
+        //Android.logout();
     });
 
     $("#update_button").on('click',function(){
         // get all soldier request to server api via ajax request
         $.ajax({
             method: "GET",
-            url: "http://"+localhost_ip+":8082/get_soldiers"
+            url: "https://"+localhost_ip+":8082/get_soldiers"
         })
         .done(function( msg ) {
         // validate returned data => success or display error message
@@ -1426,15 +1446,32 @@ function hide_loading_modal(){
 
     // socket section
 
-  var socket = io("http://"+localhost_ip+":8082");
+  var socket = io("https://"+localhost_ip+":8082");
   // returns a random integer from 0 to 9
   var r_no = Math.floor(Math.random() * 10);  
   var r_name = "user_"+r_no;
 
   var connected = false;
 
-
-  socket.emit('add user', r_name);
+    if(get_localStorage('user_data') == null){
+        console.log("there is no login information");
+        //$('#login_form_div').removeClass('hidden');
+        // just initialize the localStorage
+        var socket_message = {
+            user_mc:null
+        };
+        socket.emit('add user', socket_message);
+    }
+    else{
+        console.log("login_status is ok");
+        // just initialize the localStorage
+        var user_data = get_localStorage('user_data');
+        var user_mc = user_data.mc;
+        var socket_message = {
+            user_mc:user_mc
+        };
+        socket.emit('add user', socket_message);
+    }
 
 
   // Whenever the server emits 'login', log the login message
@@ -1537,6 +1574,84 @@ function hide_loading_modal(){
 
   });
 
+  socket.on('send_answer',(data)=>{
+    console.log("send_answer socket received on =>"+JSON.stringify(data));
+
+    // answer mc is source mc
+    var source_mc = data.source_mc;
+    //var destination_socket_id = data.destination_socket_id;
+    destination_socket_id = data.source_socket_id;
+    trace("set destination_socket_id as -> "+destination_socket_id);
+    // this is answer description
+    var description = data.description;
+
+
+  trace('localPeerConnection setRemoteDescription start.');
+  localPeerConnection.setRemoteDescription(description)
+    .then(() => {
+      setRemoteDescriptionSuccess(localPeerConnection);
+    }).catch(setSessionDescriptionError);
+    trace("hay , how are you, i hope you are connected :D :D D:");
+    trace("or just wait for iceCandidate exchange");
+
+  });
+
+  socket.on('send_offer',(data)=>{
+    console.log("send_offer socket received =>"+JSON.stringify(data));
+    // we need to set remote description to local peer connection :D :D :D 
+    // crete answer and
+    // re send anser description to requester
+    var source_mc = data.source_mc;
+    var distination_mc = data.destination_mc;
+    var socket_id = data.socket_id;
+    // set global variabe
+    // destination_socket_id 
+    // for answer description 
+    destination_socket_id = socket_id;
+    trace("destination_socket_id is set as "+destination_socket_id);
+    // it is need to resend iceCandidate to specified socket
+    var description = data.description;
+    setRemoteSdp(data.description);
+  });
+
+  socket.on('send_iceCandidate',(data)=>{
+    console.log("send_iceCandidate socket received data =>"+JSON.stringify(data));
+    // we need to set send_iceCandidate to local peer connection :D :D :D 
+
+    var destination_socket_id = data.destination_socket_id;
+    var socket_id = data.socket_id;
+    var iceCandidate = data.iceCandidate;
+    setIceCandidate(iceCandidate);
+  });
+
+  socket.on('new_message',(data)=>{
+    console.log("new_message socket on =>"+JSON.stringify(data));
+    //<kbd>ctrl + p</kbd>
+    writeToChatLog("<kbd>"+data.user_mc+"</kbd>=> "+data.message, 'text-success');
+    //channel.send({message: $('#messageTextBox').val()})
+    //$('#messageTextBox').val('');
+    // Scroll chat text area to the bottom on new input.
+    $('#chatlog').scrollTop($('#chatlog')[0].scrollHeight);
+  });
+
+  socket.on('active_now_mcs',(data)=>{
+    console.log("active_users data is "+JSON.stringify(data));
+    // this should be array of mc 
+    var active_now_mcs = data.active_now_mcs;
+    var active_list_item = '';
+
+    //    <button type="button" class="btn btn-primary">Apple</button>
+    //    "<button type='button' class='btn btn-primary'>"+active_now_mcs[i]+"</button>"
+    for(var i = 0; i<active_now_mcs.length; i++){
+        //active_list_item = active_list_item + "<li>"+active_now_mcs[i]+"</li>";
+        active_list_item = active_list_item + "<button type='button' class='btn btn-default active_now_mcs'>"+active_now_mcs[i]+"</button>";
+    }
+    // add to active list 
+    //$("#active_now_ul").html(active_list_item);
+    $("#active_now_button_group_div").html(active_list_item);
+    add_active_now_mcs_listner();
+    //$("#active_now_ul").append("<li>"+user_mc+"</li>");
+  });
 
   socket.on('update_broadcast',(data)=>{
     console.log('update_broadcast msg is '+data.msg);
@@ -1597,6 +1712,436 @@ function hide_loading_modal(){
  */
   });
 
+
+function getTimestamp () {
+  var totalSec = new Date().getTime() / 1000
+  var hours = parseInt(totalSec / 3600) % 24
+  var minutes = parseInt(totalSec / 60) % 60
+  var seconds = parseInt(totalSec % 60)
+
+  var result = (hours < 10 ? '0' + hours : hours) + ':' +
+    (minutes < 10 ? '0' + minutes : minutes) + ':' +
+    (seconds < 10 ? '0' + seconds : seconds)
+
+  return result
+}
+
+function writeToChatLog (message, message_type) {
+  document.getElementById('chatlog').innerHTML += '<p class="' + message_type + '">' + '[' + getTimestamp() + '] ' + message + '</p>'
+}
+
+
+
+$("#sendMessageBtn").on('click',function() {
+  if ($('#messageTextBox').val()) {
+
+    if(get_localStorage('user_data') == null){
+        console.log("there is no login information");
+        //$('#login_form_div').removeClass('hidden');
+    }
+    else{
+        console.log("login_status is ok");
+        // just initialize the localStorage
+        var user_data = get_localStorage('user_data');
+        var user_mc = user_data.mc;
+        var message = $('#messageTextBox').val();
+        var socket_message = {
+            user_mc:user_mc,
+            message:message
+        };
+        socket.emit('new_message', socket_message);
+    }
+    //var channel = new RTCMultiSession()
+    //writeToChatLog($('#messageTextBox').val(), 'text-success');
+    //channel.send({message: $('#messageTextBox').val()})
+    $('#messageTextBox').val('');
+
+    // Scroll chat text area to the bottom on new input.
+    $('#chatlog').scrollTop($('#chatlog')[0].scrollHeight);
+  }
+
+  return false
+});
+
+var destination_mc = null;
+var destination_socket_id = null;
+
+function add_active_now_mcs_listner(){
+    $(".active_now_mcs").on('click',function(){
+        console.log($(this).text());
+        destination_mc = $(this).text();
+        // we need to create web rtc connection 
+
+        // disable the button
+        //$(this).disabled = true;
+        startCall();
+
+
+    });  
+}
+
+
+function startCall(){
+
+  trace('Starting call.');
+  startTime = window.performance.now();
+
+  // Get local media stream tracks.
+  const videoTracks = localStream.getVideoTracks();
+  const audioTracks = localStream.getAudioTracks();
+  if (videoTracks.length > 0) {
+    trace(`Using video device: ${videoTracks[0].label}.`);
+  }
+  if (audioTracks.length > 0) {
+    trace(`Using audio device: ${audioTracks[0].label}.`);
+  }
+
+  const servers = null;  // Allows for RTC server configuration.
+const cfg = {'iceServers': [{'url': 'stun:23.21.150.121'}]},
+  con = { 'optional': [{'DtlsSrtpKeyAgreement': true}] }
+
+  // Create peer connections and add behavior.
+  localPeerConnection = new RTCPeerConnection(cfg,con);
+  trace('Created local peer connection object localPeerConnection.');
+
+  localPeerConnection.addEventListener('icecandidate', handleConnection);
+  localPeerConnection.addEventListener(
+    'iceconnectionstatechange', handleConnectionChange);
+  
+  localPeerConnection.addEventListener('addstream', gotRemoteMediaStream);
+
+  // Add local stream to connection and create offer to connect.
+  localPeerConnection.addStream(localStream);
+  trace('Added local stream to localPeerConnection.');
+
+  trace('localPeerConnection createOffer start.');
+  localPeerConnection.createOffer(offerOptions)
+    .then(createdOffer).catch(setSessionDescriptionError);
+
+}
+
+// this is web rtc section
+// Set up media stream constant and parameters.
+
+// In this codelab, you will be streaming video only: "video: true".
+// Audio will not be streamed because it is set to "audio: false" by default.
+const mediaStreamConstraints = {
+  video: true,
+};
+
+// Set up to exchange only video.
+const offerOptions = {
+  offerToReceiveVideo: 1,
+};
+
+// Define initial start time of the call (defined as connection between peers).
+let startTime = null;
+
+// Define peer connections, streams and video elements.
+const localVideo = document.getElementById('localVideo');
+const remoteVideo = document.getElementById('remoteVideo');
+
+let localStream;
+let remoteStream;
+
+let localPeerConnection;
+let remotePeerConnection;
+
+
+
+
+// Define MediaStreams callbacks.
+
+// Sets the MediaStream as the video element src.
+function gotLocalMediaStream(mediaStream) {
+  localVideo.srcObject = mediaStream;
+  localStream = mediaStream;
+  trace('Received local stream.');
+  //callButton.disabled = false;  // Enable call button.
+}
+
+// Handles error by logging a message to the console.
+function handleLocalMediaStreamError(error) {
+  trace(`navigator.getUserMedia error: ${error.toString()}.`);
+}
+
+// Handles remote MediaStream success by adding it as the remoteVideo src.
+function gotRemoteMediaStream(event) {
+    trace("remote stream is "+event.stream);
+  const mediaStream = event.stream;
+  remoteVideo.srcObject = mediaStream;
+  remoteStream = mediaStream;
+  trace('Remote peer connection received remote stream.');
+}
+
+
+
+
+// Define RTC peer connection behavior.
+
+// Connects with new peer candidate.
+function handleConnection(event) {
+    //trace("handleConnection is occured with "+event);
+  const peerConnection = event.target;
+  const iceCandidate = event.candidate;
+
+  if (iceCandidate) {
+    trace("iceCandidate is ok ");
+    // we need to send those iceCandidate via socket connection 
+    // we will pass both peerConnection and iceCandidate to server 
+    // so just trace which are they
+    //trace(" peerConnection => \n"+JSON.stringify(peerConnection)+" \n iceCandidate => \n "+JSON.stringify(iceCandidate));
+
+    // we need to send iceCandidate 
+    // we have to pass those iceCandidate to server via socket
+    var socket_id = get_localStorage('socket_id');
+    //var destination_mc = null;
+    // we got destination_mc from global scope 
+    trace("destination_mc is => "+destination_mc);
+    trace("socket_id is => "+socket_id);
+    trace("destination_socket_id is => "+destination_socket_id);
+
+    // just initialize the localStorage
+    var user_data = get_localStorage('user_data');
+    var user_mc = user_data.mc;
+
+    var socket_message = {
+            socket_id:socket_id,
+            source_mc:user_mc,
+            destination_socket_id:destination_socket_id,
+            iceCandidate:iceCandidate
+        };
+    trace("socket_message on send_iceCandidate is => "+JSON.stringify(socket_message));
+    
+    // No No We don't need to send ice Candidate to other client 
+    // m i right :D 
+    // let's see it
+    socket.emit('send_iceCandidate', socket_message);
+
+    // this is done by receiver side
+    /*
+    const newIceCandidate = new RTCIceCandidate(iceCandidate);
+    const otherPeer = getOtherPeer(peerConnection);
+
+    otherPeer.addIceCandidate(newIceCandidate)
+      .then(() => {
+        handleConnectionSuccess(peerConnection);
+      }).catch((error) => {
+        handleConnectionFailure(peerConnection, error);
+      });
+    */
+    trace(`${getPeerName(peerConnection)} ICE candidate:\n` +
+          `${event.candidate.candidate}.`);
+  }
+}
+
+
+// set iceCandidate to local peer connection from remote ice
+function setIceCandidate(iceCandidate){
+    trace("setIceCandidate function is calling..");
+    const newIceCandidate = new RTCIceCandidate(iceCandidate);
+    //const otherPeer = getOtherPeer(peerConnection);
+
+    trace("localPeerConnection is addIceCandidate start");
+    localPeerConnection.addIceCandidate(newIceCandidate)
+      .then(() => {
+        handleConnectionSuccess(localPeerConnection);
+      }).catch((error) => {
+        handleConnectionFailure(localPeerConnection, error);
+      });
+}
+// Logs that the connection succeeded.
+function handleConnectionSuccess(peerConnection) {
+  trace(`${getPeerName(peerConnection)} addIceCandidate success.`);
+};
+
+// Logs that the connection failed.
+function handleConnectionFailure(peerConnection, error) {
+  trace(`${getPeerName(peerConnection)} failed to add ICE Candidate:\n`+
+        `${error.toString()}.`);
+}
+
+// Logs changes to the connection state.
+function handleConnectionChange(event) {
+  const peerConnection = event.target;
+  console.log('ICE state change event: ', event);
+  trace(`${getPeerName(peerConnection)} ICE state: ` +
+        `${peerConnection.iceConnectionState}.`);
+}
+
+
+
+// Logs error when setting session description fails.
+function setSessionDescriptionError(error) {
+  trace(`Failed to create session description: ${error.toString()}.`);
+}
+
+// Logs success when setting session description.
+function setDescriptionSuccess(peerConnection, functionName) {
+  const peerName = getPeerName(peerConnection);
+  trace(`${peerName} ${functionName} complete.`);
+}
+
+// Logs success when localDescription is set.
+function setLocalDescriptionSuccess(peerConnection) {
+  setDescriptionSuccess(peerConnection, 'setLocalDescription');
+}
+
+// Logs success when remoteDescription is set.
+function setRemoteDescriptionSuccess(peerConnection) {
+  setDescriptionSuccess(peerConnection, 'setRemoteDescription');
+}
+
+
+
+// Logs offer creation and sets peer connection session descriptions.
+function createdOffer(description) {
+    // hay we  get offer description from local peer connection
+  trace(`Offer from localPeerConnection:\n${description.sdp}`);
+
+  trace('localPeerConnection setLocalDescription start.');
+  localPeerConnection.setLocalDescription(description)
+    .then(() => {
+      setLocalDescriptionSuccess(localPeerConnection);
+    }).catch(setSessionDescriptionError);
+
+    // we need to send local description
+    // we have to pass those local  offer description to server via socket
+    var socket_id = get_localStorage('socket_id');
+    //var destination_mc = null;
+    trace("destination_mc is => "+destination_mc);
+    trace("socket_id is => "+socket_id);
+
+    // just initialize the localStorage
+    var user_data = get_localStorage('user_data');
+    var user_mc = user_data.mc;
+
+    var socket_message = {
+            socket_id:socket_id,
+            source_mc:user_mc,
+            destination_mc:destination_mc,
+            description:description
+        };
+    trace("socket_message on send_offer is => "+JSON.stringify(socket_message));
+    socket.emit('send_offer', socket_message);
+
+    // the following section is done by other (receiver side);
+    /*
+  trace('remotePeerConnection setRemoteDescription start.');
+  remotePeerConnection.setRemoteDescription(description)
+    .then(() => {
+      setRemoteDescriptionSuccess(remotePeerConnection);
+    }).catch(setSessionDescriptionError);
+
+  trace('remotePeerConnection createAnswer start.');
+  remotePeerConnection.createAnswer()
+    .then(createdAnswer)
+    .catch(setSessionDescriptionError);
+    */
+}
+
+function setRemoteSdp(description){
+
+    trace("Initialize localPeerConnection ");
+    // we should use global scope server 
+    // #attention check the initialization of localPeerConnection between this (setRemoteSdp) and setIceCandidate
+  
+
+  const servers = null;  // Allows for RTC server configuration.
+const cfg = {'iceServers': [{'url': 'stun:23.21.150.121'}]},
+  con = { 'optional': [{'DtlsSrtpKeyAgreement': true}] }
+
+  // Create peer connections and add behavior.
+  localPeerConnection = new RTCPeerConnection(cfg,con);
+  trace('Created local peer connection object localPeerConnection.');
+
+  localPeerConnection.addEventListener('icecandidate', handleConnection);
+  localPeerConnection.addEventListener(
+    'iceconnectionstatechange', handleConnectionChange);
+
+/*
+  // Add local stream to connection and create offer to connect.
+  localPeerConnection.addStream(localStream);
+  trace('Added local stream to localPeerConnection.');
+  */
+
+  localPeerConnection.addEventListener('addstream', gotRemoteMediaStream);
+
+  // Add local stream to connection and create offer to connect.
+  localPeerConnection.addStream(localStream);
+
+    trace('localPeerConnection set  RemoteDescription start.');
+  localPeerConnection.setRemoteDescription(description)
+    .then(() => {
+      setRemoteDescriptionSuccess(localPeerConnection);
+    }).catch(setSessionDescriptionError);
+
+  trace('localPeerConnection createAnswer start.');
+  localPeerConnection.createAnswer()
+    .then(createdAnswer)
+    .catch(setSessionDescriptionError);
+}
+// Logs answer to offer creation and sets peer connection session descriptions.
+function createdAnswer(description) {
+  trace(`Answer from localPeerConnection :\n${description.sdp}.`);
+
+  trace('localPeerConnection setLocalDescription start.');
+  localPeerConnection.setLocalDescription(description)
+    .then(() => {
+      setLocalDescriptionSuccess(localPeerConnection);
+    }).catch(setSessionDescriptionError);
+
+// re send answer description to socket server 
+/*
+  trace('localPeerConnection setRemoteDescription start.');
+  localPeerConnection.setRemoteDescription(description)
+    .then(() => {
+      setRemoteDescriptionSuccess(localPeerConnection);
+    }).catch(setSessionDescriptionError);
+    */
+
+
+    var socket_id = get_localStorage('socket_id');
+    //var destination_mc = null;
+    trace("destination_socket_id is => "+destination_socket_id);
+    trace("local socket_id is => "+socket_id);
+
+    // just initialize the localStorage
+    var user_data = get_localStorage('user_data');
+    var user_mc = user_data.mc;
+
+    var socket_message = {
+            source_socket_id:socket_id,
+            source_mc:user_mc,
+            destination_socket_id:destination_socket_id,
+            description:description
+        };
+    trace("socket_message on send_answer is => "+JSON.stringify(socket_message));
+    socket.emit('send_answer', socket_message);
+}
+
+
+
+// Define helper functions.
+
+// Gets the "other" peer connection.
+function getOtherPeer(peerConnection) {
+  return (peerConnection === localPeerConnection) ?
+      remotePeerConnection : localPeerConnection;
+}
+
+// Gets the name of a certain peer connection.
+function getPeerName(peerConnection) {
+  return (peerConnection === localPeerConnection) ?
+      'localPeerConnection' : 'remotePeerConnection';
+}
+// Logs an action (text) and the time when it happened on the console.
+function trace(text) {
+  text = text.trim();
+  const now = (window.performance.now() / 1000).toFixed(3);
+
+  console.log(now, text);
+}
 
 
 
