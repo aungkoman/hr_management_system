@@ -1787,8 +1787,8 @@ function startCall(){
   startTime = window.performance.now();
 
   // Get local media stream tracks.
-  const videoTracks = localStream.getVideoTracks();
-  const audioTracks = localStream.getAudioTracks();
+  const videoTracks = localStream !== undefined ? localStream.getVideoTracks() : [];
+  const audioTracks = localStream !== undefined ? localStream.getAudioTracks() : [];
   if (videoTracks.length > 0) {
     trace(`Using video device: ${videoTracks[0].label}.`);
   }
